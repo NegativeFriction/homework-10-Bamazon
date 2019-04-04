@@ -57,20 +57,36 @@ function choose() {
       .prompt({
         message: "Would you like to check out?",
         name: "confirm",
-        type: "confirm",
-        default: true
+        type: "list",
+        choices: ["Yes", "No", "Show me what's in my cart"]
       })
       .then(function(res) {
-        if (res.confirm) {
+        if (res.confirm === "Yes") {
           var i = shoppingCart.length - 1;
           checkOut(i);
-        } else {
+        } else if (res.confirm === "No") {
           buyStuff();
+        } else {
+          showCart();
         }
       });
   } else {
     buyStuff();
   }
+}
+
+function showCart() {
+  var output = [["Item", "Quantity", "Price", "Total Price"]];
+  for (var i = 0; i < shoppingCart.length; i++) {
+    output.push([
+      shoppingCart[i][0].productName,
+      shoppingCart[i][1],
+      shoppingCart[i][0].productPrice,
+      shoppingCart[i][0].productPrice * shoppingCart[i][1]
+    ]);
+  }
+  console.log(table.table(output));
+  choose();
 }
 
 function buyStuff() {
