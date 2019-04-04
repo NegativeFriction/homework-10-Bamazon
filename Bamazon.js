@@ -42,8 +42,10 @@ var display = function() {
       var seller = res[i].productSeller;
       var quantity = res[i].productQuantity;
       var newRow = [id, name, price, seller, quantity];
-      productsObjs.push(res[i]);
-      productsTable.push(newRow);
+      if (quantity > 0) {
+        productsObjs.push(res[i]);
+        productsTable.push(newRow);
+      }
     }
     output = table.table(productsTable);
     console.log(output);
